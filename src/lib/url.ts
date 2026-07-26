@@ -6,7 +6,7 @@
  * unter dem Unterpfad (Top-Pitfall laut Plan). Für optimierte Bilder immer
  * `astro:assets` verwenden — das respektiert den Base-Path automatisch.
  */
-const BASE = import.meta.env.BASE_URL; // endet per Astro-Konvention auf '/'
+const BASE = import.meta.env.BASE_URL; // z. B. '/praxis-kalina' (OHNE Trailing-Slash) bzw. '/' produktiv
 
 export function withBase(path: string): string {
   const b = BASE.endsWith('/') ? BASE.slice(0, -1) : BASE;

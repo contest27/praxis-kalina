@@ -40,7 +40,11 @@ Phase-1-Bau **weitgehend fertig & lokal verifiziert**:
 - „Jetzt geöffnet"-Badge korrekt (So = geschlossen), Mobilmenü-Toggle + FAQ-`<details>` funktionieren, MedicalClinic-JSON-LD valide, 1×h1/Seite.
 - Deploy-Workflow (.github/workflows/deploy.yml, + täglicher Cron), README, Projekt-CLAUDE.md geschrieben.
 
-**Als Nächstes:** Review-Agenten-Findings einarbeiten → Git-Init + erster Commit → dann GitHub-Nutzername für Deploy.
+**Review-Agent (general-purpose):** 0 Critical; Base-Path + Datenschutz unabhängig als sauber bestätigt. Behoben: **M1** (doppelte OpenNowBadge — Inline-Skript adressierte per `querySelector` nur die erste → jetzt `querySelectorAll` über alle, + Slot-Sortierung), **M2** (Fokus-Ring weinrot auf dunklem Footer/CTA unsichtbar → weißer Ring), h1→h3-Sprung /leistungen (verdeckte h2), Skip-Ziel `tabindex=-1`, Urlaub-Badge-Kontrast, Karten-Links `noreferrer`, RSS absolute Links + Discovery-Link, 404-Seite. **Prototyp auf `noindex`** gesetzt (github.io-URL soll nicht mit der echten Seite konkurrieren). Offen als Handoff (nicht blockierend): og:image, apple-touch-PNG, statisches Kartenbild, robots.txt greift erst unter Custom-Domain.
+
+**Git:** Initial-Commit `2e92cfd` (64 Dateien), Remote `contest27/praxis-kalina` eingehängt (Repo muss noch angelegt werden). GCM system-weit → Push funktioniert nach Repo-Anlage.
+
+**Als Nächstes:** Repo anlegen (Sebastian) → Push → Pages-Source = Actions → Live unter contest27.github.io/praxis-kalina/.
 
 **[LEARN:build]** `npm install typescript@latest` zog TS 7.0.2 → inkompatibel mit @astrojs/check (peer ^5||^6) → auf `typescript@^5` gepinnt. Und `astro@latest` = Astro 7 (post-cutoff): `z` kommt aus `astro:schema` (nicht mehr `astro:content`).
 

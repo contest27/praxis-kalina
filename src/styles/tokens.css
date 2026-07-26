@@ -27,7 +27,7 @@
   --focus: #8a162a;           /* Fokus-Ring */
 
   /* Aktuelles-Typen (immer mit Icon+Label, nie Farbe allein) */
-  --type-urlaub: #b45309;     /* Urlaub — Amber */
+  --type-urlaub: #9a4708;     /* Urlaub — Amber (dunkel genug für AA auf getöntem Banner) */
   --type-vertretung: #2f5f8f; /* Vertretung — ruhiges Blau */
   --type-info: #8a162a;       /* Info — Weinrot */
 

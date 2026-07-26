@@ -105,6 +105,13 @@ ol {
   outline: none;
 }
 
+/* Auf dunklen Flächen (Footer, CTA-Band) weißer Fokus-Ring — Weinrot wäre dort
+   unsichtbar (WCAG 2.4.7 / 2.4.11). */
+.site-footer :focus-visible,
+.cta :focus-visible {
+  outline-color: #fff;
+}
+
 /* --- Skip-Link -------------------------------------------------------- */
 .skip-link {
   position: absolute;

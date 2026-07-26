@@ -16,7 +16,7 @@ export async function GET(context: APIContext) {
       title: e.data.title,
       pubDate: e.data.date,
       description: ((e as { body?: string }).body ?? '').trim(),
-      link: withBase('/aktuelles'),
+      link: new URL(withBase('/aktuelles'), context.site ?? 'https://contest27.github.io').href,
     })),
   });
 }

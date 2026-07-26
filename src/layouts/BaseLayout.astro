@@ -17,6 +17,9 @@ interface Props {
   structuredData?: boolean;
 }
 const { title, description, noindex = false, structuredData = false } = Astro.props;
+// Prototyp (Unterpfad, nicht Root) aus dem Suchindex halten, damit die github.io-URL
+// nicht mit der echten Praxis-Seite konkurriert. Produktiv (base '/') wird indexiert.
+const prototypeNoindex = import.meta.env.BASE_URL !== '/';
 ---
 
 <!doctype html>
@@ -28,14 +31,20 @@ const { title, description, noindex = false, structuredData = false } = Astro.pr
     <link rel="apple-touch-icon" href={withBase('/favicon.svg')} />
     <meta name="theme-color" content="#8a162a" />
     <meta name="format-detection" content="telephone=no" />
-    <Seo title={title} description={description} noindex={noindex} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Aktuelles – Frauenarztpraxis Dorothee Kalina"
+      href={withBase('/rss.xml')}
+    />
+    <Seo title={title} description={description} noindex={noindex || prototypeNoindex} />
     {structuredData && <StructuredData />}
   </head>
   <body>
     <a class="skip-link" href="#main">Zum Inhalt springen</a>
     <Header />
     <AktuellesBanner />
-    <main id="main">
+    <main id="main" tabindex="-1">
       <slot />
     </main>
     <Footer />

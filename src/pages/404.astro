@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Icon } from 'astro-icon/components';
+import { withBase } from '../lib/url';
+---
+
+<BaseLayout title="Seite nicht gefunden" description="Diese Seite existiert leider nicht." noindex={true}>
+  <section class="section notfound">
+    <div class="container container-narrow">
+      <p class="notfound__code" aria-hidden="true">404</p>
+      <h1>Diese Seite gibt es leider nicht</h1>
+      <p class="lead">Der Link ist vielleicht veraltet. Über diese Wege finden Sie zurück:</p>
+      <div class="notfound__links">
+        <a class="btn btn--primary" href={withBase('/')}>
+          <Icon name="lucide:home" /> Zur Startseite
+        </a>
+        <a class="btn btn--ghost" href={withBase('/kontakt')}>Kontakt &amp; Termine</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    text-align: center;
+  }
+  .notfound__code {
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: clamp(3.5rem, 12vw, 7rem);
+    line-height: 1;
+    color: var(--rose-200);
+  }
+  .notfound h1 {
+    margin-top: 0.4rem;
+  }
+  .notfound .lead {
+    margin-top: 0.8rem;
+  }
+  .notfound__links {
+    margin-top: 1.8rem;
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

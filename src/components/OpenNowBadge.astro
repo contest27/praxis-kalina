@@ -13,9 +13,6 @@ const hours = praxis.hours;
   // niemals fixer UTC-Offset). Progressive Enhancement: ohne JS bleibt die
   // Badge verborgen, die Sprechzeiten-Tabelle ist die verlässliche Quelle.
   (function () {
-    const el = document.querySelector('[data-opennow]');
-    const textEl = document.querySelector('[data-opennow-text]');
-    if (!el || !textEl) return;
     const dayMap = { Mon: 'Mo', Tue: 'Di', Wed: 'Mi', Thu: 'Do', Fri: 'Fr', Sat: 'Sa', Sun: 'So' };
     const toMin = (t) => {
       const [h, m] = t.split(':').map(Number);
@@ -35,7 +32,8 @@ const hours = praxis.hours;
         +parts.find((p) => p.type === 'minute').value;
       const today = hours.find((h) => h.day === wd);
       if (today) {
-        for (const s of today.slots) {
+        const slots = [...today.slots].sort((a, b) => a.from.localeCompare(b.from));
+        for (const s of slots) {
           if (mins >= toMin(s.from) && mins < toMin(s.to)) return { open: true, until: s.to };
           if (mins < toMin(s.from)) return { open: false, next: s.from };
         }
@@ -43,15 +41,23 @@ const hours = praxis.hours;
       return { open: false };
     }
     const s = status(new Date());
-    el.hidden = false;
-    if (s.open) {
-      el.classList.add('is-open');
-      textEl.innerHTML = 'Jetzt geöffnet' + (s.until ? ' <small>bis ' + s.until + ' Uhr</small>' : '');
-    } else {
-      el.classList.add('is-closed');
-      textEl.innerHTML =
-        'Zurzeit geschlossen' + (s.next ? ' <small>öffnet um ' + s.next + ' Uhr</small>' : '');
-    }
+    // Alle Badges der Seite bedienen (Hero + Sprechzeiten-Block) — idempotent,
+    // da das Inline-Skript pro Instanz einmal läuft.
+    document.querySelectorAll('[data-opennow]').forEach((el) => {
+      const textEl = el.querySelector('[data-opennow-text]');
+      if (!textEl) return;
+      el.hidden = false;
+      el.classList.remove('is-open', 'is-closed');
+      if (s.open) {
+        el.classList.add('is-open');
+        textEl.innerHTML =
+          'Jetzt geöffnet' + (s.until ? ' <small>bis ' + s.until + ' Uhr</small>' : '');
+      } else {
+        el.classList.add('is-closed');
+        textEl.innerHTML =
+          'Zurzeit geschlossen' + (s.next ? ' <small>öffnet um ' + s.next + ' Uhr</small>' : '');
+      }
+    });
   })();
 </script>
 
