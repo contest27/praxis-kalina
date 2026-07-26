@@ -93,7 +93,7 @@ const isActive = (href: string) => {
       if (e.key === 'Escape') close();
     });
     list.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
-    window.matchMedia('(min-width: 880px)').addEventListener('change', close);
+    window.matchMedia('(min-width: 1000px)').addEventListener('change', close);
 
     // dezenter Schatten, sobald gescrollt
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
@@ -136,6 +136,16 @@ const isActive = (href: string) => {
     align-items: center;
     gap: clamp(0.6rem, 1.6vw, 1.6rem);
   }
+  /* Kein Element der Kopfleiste darf schmaler werden als sein Inhalt —
+     sonst bricht der Text darin um (z. B. "Über / uns"). */
+  .site-header__brand,
+  .nav,
+  .nav__list > li {
+    flex: none;
+  }
+  .nav__cta .btn {
+    white-space: nowrap;
+  }
   .nav__link {
     display: inline-block;
     padding: 0.4rem 0.2rem;
@@ -144,6 +154,7 @@ const isActive = (href: string) => {
     font-size: 1rem;
     color: var(--ink);
     text-decoration: none;
+    white-space: nowrap; /* nie mitten im Menuepunkt umbrechen */
     border-bottom: 2px solid transparent;
     transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
   }
@@ -163,6 +174,13 @@ const isActive = (href: string) => {
     color: var(--burgundy);
     text-decoration: none;
     white-space: nowrap;
+  }
+  /* Im mittleren Bereich ist die Leiste sonst zu voll. Die Nummer steht dort
+     weiterhin in der Hero-Karte, im Termin-Band und im Footer. */
+  @media (min-width: 1000px) and (max-width: 1199px) {
+    .nav__phone {
+      display: none;
+    }
   }
   .nav__phone svg {
     width: 1.05em;
@@ -190,8 +208,10 @@ const isActive = (href: string) => {
     display: none;
   }
 
-  /* ---- Mobil ---- */
-  @media (max-width: 879px) {
+  /* ---- Mobil / schmale Fenster ----
+     Umschaltpunkt bei 1000px: die volle Navigation braucht rund 1000px,
+     darunter wuerde sie zusammengequetscht und der Text bricht um. */
+  @media (max-width: 999px) {
     .nav__toggle {
       display: inline-flex;
     }
