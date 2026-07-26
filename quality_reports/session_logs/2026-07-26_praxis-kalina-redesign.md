@@ -44,7 +44,9 @@ Phase-1-Bau **weitgehend fertig & lokal verifiziert**:
 
 **Git:** Initial-Commit `2e92cfd` (64 Dateien), Remote `contest27/praxis-kalina` eingehängt (Repo muss noch angelegt werden). GCM system-weit → Push funktioniert nach Repo-Anlage.
 
-**Als Nächstes:** Repo anlegen (Sebastian) → Push → Pages-Source = Actions → Live unter contest27.github.io/praxis-kalina/.
+**DEPLOYED (2026-07-26): Phase 1 abgeschlossen & live** unter https://contest27.github.io/praxis-kalina/ (Repo contest27/praxis-kalina, public). Verifiziert: alle Seiten/Assets 200, Base-Pfade korrekt, `noindex` aktiv, MedicalClinic-Schema live. Auto-Redeploy bei jedem Push auf `main` (GitHub Actions + täglicher Cron). GCM-Push lief nach Repo-Anlage sofort durch.
+
+**Offen (Handoff, nicht blockierend):** echtes Logo + Ärztinnen-Fotos · Rechtsprüfung Impressum/Datenschutz · Phase-2-CMS (Sveltia/Decap + Cloudflare-Worker-OAuth) · Custom-Domain-Umzug praxis-kalina.de · optional Lighthouse-Lauf, og:image, statisches Kartenbild.
 
 **[LEARN:build]** `npm install typescript@latest` zog TS 7.0.2 → inkompatibel mit @astrojs/check (peer ^5||^6) → auf `typescript@^5` gepinnt. Und `astro@latest` = Astro 7 (post-cutoff): `z` kommt aus `astro:schema` (nicht mehr `astro:content`).
 
