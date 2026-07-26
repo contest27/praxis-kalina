@@ -1,0 +1,76 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import { AKTUELLES_META } from '../lib/aktuelles';
+
+interface Props {
+  entry: CollectionEntry<'aktuelles'>;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const meta = AKTUELLES_META[entry.data.type];
+const dateStr = new Intl.DateTimeFormat('de-DE', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric',
+}).format(entry.data.date);
+const iso = entry.data.date.toISOString().slice(0, 10);
+---
+
+<article class="aktcard" style={`--type: var(${meta.varName});`}>
+  <div class="aktcard__head">
+    <span class="aktcard__badge">
+      <Icon name={meta.icon} /> {meta.label}
+    </span>
+    <time datetime={iso}>{dateStr}</time>
+  </div>
+  <h2 class="aktcard__title">{entry.data.title}</h2>
+  <div class="prose aktcard__body">
+    <Content />
+  </div>
+</article>
+
+<style>
+  .aktcard {
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--type);
+    border-radius: var(--r);
+    padding: clamp(1.1rem, 3vw, 1.6rem);
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+  .aktcard__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.4rem;
+  }
+  .aktcard__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--type);
+  }
+  .aktcard__badge :global(svg) {
+    width: 1.15em;
+    height: 1.15em;
+  }
+  .aktcard__head time {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+  .aktcard__title {
+    font-size: 1.3rem;
+  }
+  .aktcard__body {
+    margin-top: 0.5rem;
+    color: var(--ink);
+  }
+</style>

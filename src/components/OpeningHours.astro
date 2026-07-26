@@ -1,0 +1,78 @@
+---
+import { fullWeek } from '../lib/hours';
+import praxis from '../content/praxis/praxisdaten.json';
+const week = fullWeek(praxis.hours);
+---
+
+<table class="hours">
+  <caption class="visually-hidden">Sprechzeiten der Praxis</caption>
+  <tbody>
+    {
+      week.map((d) => (
+        <tr data-day={d.day} class:list={{ 'is-closed': d.closed }}>
+          <th scope="row">{d.long}</th>
+          <td>{d.label}</td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>
+
+<script>
+  // Heutigen Tag (Europe/Berlin) rein visuell hervorheben — kein Tracking.
+  const wd = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Berlin',
+    weekday: 'short',
+  }).format(new Date());
+  const map: Record<string, string> = {
+    Mon: 'Mo',
+    Tue: 'Di',
+    Wed: 'Mi',
+    Thu: 'Do',
+    Fri: 'Fr',
+    Sat: 'Sa',
+    Sun: 'So',
+  };
+  document.querySelector(`.hours tr[data-day="${map[wd]}"]`)?.classList.add('is-today');
+</script>
+
+<style>
+  .hours {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+  }
+  .hours tr {
+    border-bottom: 1px solid var(--line);
+  }
+  .hours tr:last-child {
+    border-bottom: none;
+  }
+  .hours th {
+    text-align: left;
+    font-family: var(--font-brand);
+    font-weight: 600;
+    padding: 0.6rem 0;
+    color: var(--ink);
+  }
+  .hours td {
+    text-align: right;
+    padding: 0.6rem 0;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .hours tr.is-closed th,
+  .hours tr.is-closed td {
+    color: var(--muted);
+  }
+  .hours tr.is-today {
+    background: var(--rose);
+  }
+  .hours tr.is-today th,
+  .hours tr.is-today td {
+    color: var(--burgundy);
+    font-weight: 700;
+    padding-inline: 0.7rem;
+    border-radius: var(--r-sm);
+  }
+</style>

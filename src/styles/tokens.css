@@ -1,0 +1,84 @@
+/* =========================================================================
+   Design-Tokens — Frauenarztpraxis Dorothee Kalina
+   Modernisierte Marken-Identität: Weinrot #8A162A + Rosé #F7E6EC (aus Altseite),
+   warme Neutrals, WCAG-AA-Kontraste. Ein Font (Quicksand, self-hosted).
+   ========================================================================= */
+
+:root {
+  /* --- Marke ------------------------------------------------------------ */
+  --burgundy: #8a162a;        /* Primär: Marke, Headings, CTAs (auf Weiß ~8.5:1) */
+  --burgundy-600: #7a1325;    /* Hover */
+  --burgundy-700: #5f0f1d;    /* Aktiv / dunkle Flächen */
+  --burgundy-800: #4a0c17;
+  --rose: #f7e6ec;            /* weiche Section-Fläche (aus Altseite) */
+  --rose-100: #fbf1f4;        /* noch weicher */
+  --rose-200: #f2d6e0;        /* Ränder auf Rosé */
+
+  /* --- Neutrals (warm) -------------------------------------------------- */
+  --ink: #2a2325;             /* Fließtext (auf Weiß ~14:1) */
+  --muted: #6b5c61;           /* Sekundärtext (auf Weiß ~5.6:1, AA) */
+  --line: #ecdde2;            /* Trennlinien / Ränder */
+  --bg: #ffffff;
+  --bg-soft: #faf6f7;         /* off-white, warm */
+
+  /* --- Semantik --------------------------------------------------------- */
+  --open: #1f7a52;            /* „jetzt geöffnet" (auf Weiß ~4.9:1, AA) */
+  --closed: #9a3b3b;          /* „geschlossen" */
+  --focus: #8a162a;           /* Fokus-Ring */
+
+  /* Aktuelles-Typen (immer mit Icon+Label, nie Farbe allein) */
+  --type-urlaub: #b45309;     /* Urlaub — Amber */
+  --type-vertretung: #2f5f8f; /* Vertretung — ruhiges Blau */
+  --type-info: #8a162a;       /* Info — Weinrot */
+
+  /* --- Typografie ------------------------------------------------------- */
+  --font-brand: "Quicksand Variable", "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Quicksand Variable", "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Fluid-Type-Scale (min … max, skaliert mit Viewport) */
+  --fs-xs:   clamp(0.78rem, 0.75rem + 0.15vw, 0.86rem);
+  --fs-sm:   clamp(0.9rem,  0.86rem + 0.2vw,  1rem);
+  --fs-base: clamp(1rem,    0.96rem + 0.25vw, 1.125rem);   /* ~16–18px */
+  --fs-md:   clamp(1.15rem, 1.05rem + 0.5vw,  1.4rem);
+  --fs-lg:   clamp(1.4rem,  1.2rem + 1vw,     1.9rem);
+  --fs-xl:   clamp(1.7rem,  1.35rem + 1.7vw,  2.55rem);
+  --fs-2xl:  clamp(2.05rem, 1.55rem + 2.5vw,  3.35rem);    /* Hero */
+
+  --lh-tight: 1.15;
+  --lh-heading: 1.2;
+  --lh-body: 1.65;
+  --tracking-tight: -0.01em;
+  --tracking-wide: 0.02em;
+
+  /* --- Abstände (8px-System) ------------------------------------------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+  --sp-10: 8rem;
+
+  /* --- Radien / Schatten / Layout -------------------------------------- */
+  --r-sm: 8px;
+  --r: 14px;
+  --r-lg: 22px;
+  --r-full: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(42, 12, 23, 0.06), 0 1px 3px rgba(42, 12, 23, 0.05);
+  --shadow: 0 4px 12px rgba(42, 12, 23, 0.07), 0 2px 4px rgba(42, 12, 23, 0.05);
+  --shadow-lg: 0 18px 40px rgba(42, 12, 23, 0.12), 0 6px 14px rgba(42, 12, 23, 0.07);
+
+  --container: 72rem;         /* 1152px */
+  --container-narrow: 46rem;  /* Lesetexte */
+  --container-wide: 82rem;
+
+  --t-fast: 130ms;
+  --t: 220ms;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --header-h: 4.75rem;
+}

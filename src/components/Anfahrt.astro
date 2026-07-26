@@ -1,0 +1,85 @@
+---
+import { Icon } from 'astro-icon/components';
+import praxis from '../content/praxis/praxisdaten.json';
+
+const query = encodeURIComponent(`${praxis.strasse}, ${praxis.plz} ${praxis.ort}`);
+const osm = `https://www.openstreetmap.org/search?query=${query}`;
+const gmaps = `https://www.google.com/maps/search/?api=1&query=${query}`;
+---
+
+<div class="anfahrt">
+  <div class="anfahrt__map" role="img" aria-label={`Karte: ${praxis.strasse}, ${praxis.plz} ${praxis.ort}`}>
+    {/* Datenschutzfreundlicher Platzhalter statt Karten-iframe (kein Fremd-Request).
+        Ein statisches Kartenbild (public/img/anfahrt-map.png) kann hier später ergänzt werden. */}
+    <span class="anfahrt__pin"><Icon name="lucide:map-pin" /></span>
+    <span class="anfahrt__addr">{praxis.strasse}<br />{praxis.plz} {praxis.ort}</span>
+  </div>
+  <div class="anfahrt__info">
+    <h3>So finden Sie uns</h3>
+    <p class="anfahrt__note">
+      Die Praxis ist gut mit öffentlichen Verkehrsmitteln erreichbar; Parkmöglichkeiten finden
+      Sie in der näheren Umgebung. Für eine genaue Wegbeschreibung nutzen Sie gern die
+      Routenplanung.
+    </p>
+    <div class="anfahrt__links">
+      <a class="btn btn--primary" href={osm} target="_blank" rel="noopener">
+        <Icon name="lucide:map" /> Route planen
+      </a>
+      <a class="btn btn--ghost" href={gmaps} target="_blank" rel="noopener">
+        Google Maps <Icon name="lucide:external-link" />
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .anfahrt {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.25rem, 3vw, 2rem);
+    align-items: stretch;
+  }
+  .anfahrt__map {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 15rem;
+    border-radius: var(--r-lg);
+    background:
+      radial-gradient(circle at 30% 30%, rgba(138, 22, 42, 0.05), transparent 55%),
+      var(--rose);
+    border: 1px solid var(--rose-200);
+    text-align: center;
+    color: var(--burgundy);
+  }
+  .anfahrt__pin :global(svg) {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  .anfahrt__addr {
+    font-family: var(--font-brand);
+    font-weight: 600;
+  }
+  .anfahrt__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .anfahrt__note {
+    margin-top: 0.6rem;
+    color: var(--muted);
+  }
+  .anfahrt__links {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  @media (max-width: 720px) {
+    .anfahrt {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

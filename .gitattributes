@@ -1,0 +1,9 @@
+# Konsistente Zeilenenden: im Repo immer LF (verhindert CRLF-Churn zwischen Windows und CI)
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff2 binary

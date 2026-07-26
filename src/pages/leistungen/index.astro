@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
+import { withBase } from '../../lib/url';
+
+const services = (await getCollection('services'))
+  .filter((s) => !s.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Leistungen"
+  description="Unser Leistungsspektrum: Vorsorge und Krebsfrüherkennung, Betreuung in der Schwangerschaft, Hormonberatung und Mädchensprechstunde."
+>
+  <PageHeader
+    eyebrow="Leistungen"
+    title="Unser Angebot für Ihre Gesundheit"
+    lead="Wir begleiten Sie kompetent und einfühlsam – von der Vorsorge über die Schwangerschaft bis zur Beratung in allen Lebensphasen."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="cardgrid">
+        {
+          services.map((s) => (
+            <ServiceCard
+              title={s.data.title}
+              summary={s.data.summary}
+              icon={s.data.icon}
+              href={withBase(`/leistungen/${s.id}`)}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>

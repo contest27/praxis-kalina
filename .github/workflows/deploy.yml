@@ -1,0 +1,48 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Täglicher Rebuild, damit zeitbasierte „Aktuelles"-Meldungen (expires) ablaufen,
+    # auch ohne neuen Commit.
+    - cron: '15 4 * * *'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Nur ein Deploy gleichzeitig; laufende Deploys nicht abbrechen.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build mit Astro
+        uses: withastro/action@v3
+        with:
+          node-version: 24
+        env:
+          # Repo-Variablen setzen unter: Settings → Secrets and variables → Actions → Variables
+          #   SITE_URL   z. B. https://<username>.github.io   (oder https://praxis-kalina.de)
+          #   BASE_PATH  z. B. /praxis-kalina                  (oder / bei Custom-Domain)
+          SITE_URL: ${{ vars.SITE_URL }}
+          BASE_PATH: ${{ vars.BASE_PATH }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy auf GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

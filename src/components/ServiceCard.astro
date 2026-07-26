@@ -1,0 +1,85 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  title: string;
+  summary: string;
+  icon: string;
+  href: string;
+}
+const { title, summary, icon, href } = Astro.props;
+---
+
+<a class="service-card" href={href}>
+  <span class="service-card__icon" aria-hidden="true">
+    <Icon name={`lucide:${icon}`} />
+  </span>
+  <h3 class="service-card__title">{title}</h3>
+  <p class="service-card__summary">{summary}</p>
+  <span class="service-card__more">
+    Mehr erfahren <Icon name="lucide:arrow-right" />
+  </span>
+</a>
+
+<style>
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.6rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    text-decoration: none;
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--t) var(--ease), box-shadow var(--t) var(--ease),
+      border-color var(--t) var(--ease);
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--rose-200);
+  }
+  .service-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.1rem;
+    height: 3.1rem;
+    border-radius: var(--r);
+    background: var(--rose);
+    color: var(--burgundy);
+    margin-bottom: 1.1rem;
+  }
+  .service-card__icon :global(svg) {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+  .service-card__title {
+    font-size: 1.25rem;
+  }
+  .service-card__summary {
+    margin-top: 0.55rem;
+    color: var(--muted);
+    font-size: 0.98rem;
+    flex: 1;
+  }
+  .service-card__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.2rem;
+    font-family: var(--font-brand);
+    font-weight: 600;
+    color: var(--burgundy);
+  }
+  .service-card__more :global(svg) {
+    width: 1.05em;
+    height: 1.05em;
+    transition: transform var(--t-fast) var(--ease);
+  }
+  .service-card:hover .service-card__more :global(svg) {
+    transform: translateX(4px);
+  }
+</style>

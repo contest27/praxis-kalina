@@ -1,0 +1,198 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import OpeningHours from '../components/OpeningHours.astro';
+import OpenNowBadge from '../components/OpenNowBadge.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { withBase } from '../lib/url';
+import praxis from '../content/praxis/praxisdaten.json';
+
+const startseite = await getEntry('pages', 'startseite');
+const welcome =
+  (startseite?.body ?? '').trim() ||
+  'Wir freuen uns, Sie in unserer Praxis begrüßen zu dürfen – einem Ort, wo persönliche Zuwendung und professionelle gynäkologische Betreuung Hand in Hand gehen.';
+
+const services = (await getCollection('services'))
+  .filter((s) => !s.data.draft && s.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const ueber = await getEntry('pages', 'ueber-uns');
+const philosophy = (ueber?.body ?? '').trim().split(/\n\n+/)[0] ?? '';
+
+const values = [
+  {
+    icon: 'messages-square',
+    title: 'Zeit für Gespräche',
+    text: 'Wir hören zu und beraten individuell – in Ruhe und auf Augenhöhe.',
+  },
+  {
+    icon: 'microscope',
+    title: 'Moderne Diagnostik',
+    text: 'Wissenschaftlich fundierte Untersuchungen und schonende Verfahren.',
+  },
+  {
+    icon: 'heart-handshake',
+    title: 'In jeder Lebensphase',
+    text: 'Einfühlsame Begleitung – vom jungen Erwachsenenalter bis in die Wechseljahre.',
+  },
+];
+---
+
+<BaseLayout
+  title="Frauenarztpraxis Dorothee Kalina"
+  description="Frauenarztpraxis Dorothee Kalina in Leverkusen – Vorsorge, Schwangerschaftsbetreuung, Hormonberatung und Mädchensprechstunde. Termine bequem online buchen."
+  structuredData={true}
+>
+  <Hero eyebrow="Herzlich willkommen" title="Für Ihre Gesundheit in jeder Lebensphase" lead={welcome} />
+
+  <section class="section values">
+    <div class="container values__grid">
+      {
+        values.map((v) => (
+          <div class="value">
+            <span class="value__icon" aria-hidden="true">
+              <Icon name={`lucide:${v.icon}`} />
+            </span>
+            <h2 class="value__title">{v.title}</h2>
+            <p class="value__text">{v.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--soft" id="leistungen">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Leistungen</span>
+        <h2>Unser Angebot für Ihre Gesundheit</h2>
+        <p class="lead">
+          Vorsorge, Schwangerschaftsbetreuung, Hormonberatung und Mädchensprechstunde – kompetent
+          und einfühlsam.
+        </p>
+      </div>
+      <div class="cardgrid">
+        {
+          services.map((s) => (
+            <ServiceCard
+              title={s.data.title}
+              summary={s.data.summary}
+              icon={s.data.icon}
+              href={withBase(`/leistungen/${s.id}`)}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--rose">
+    <div class="container-narrow philo">
+      <span class="eyebrow">Über uns</span>
+      <p class="philo__text">{philosophy}</p>
+      <a class="btn btn--ghost" href={withBase('/ueber-uns')}>
+        Mehr über uns &amp; unser Team <Icon name="lucide:arrow-right" />
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="sprechzeiten">
+    <div class="container hours-block">
+      <div class="hours-block__head">
+        <span class="eyebrow">Sprechzeiten</span>
+        <h2>Wann wir für Sie da sind</h2>
+        <div class="hours-block__badge"><OpenNowBadge /></div>
+        <p class="lead">{praxis.hinweisTermin}</p>
+        <a class="btn btn--primary" href={praxis.bookingUrl} target="_blank" rel="noopener">
+          <Icon name="lucide:calendar-check" /> Termin online buchen
+        </a>
+      </div>
+      <div class="hours-block__table">
+        <OpeningHours />
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .values__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+  }
+  .value {
+    text-align: center;
+  }
+  .value__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    background: var(--rose);
+    color: var(--burgundy);
+    margin-bottom: 0.9rem;
+  }
+  .value__icon :global(svg) {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+  .value__title {
+    font-size: 1.2rem;
+  }
+  .value__text {
+    margin-top: 0.4rem;
+    color: var(--muted);
+    max-width: 30ch;
+    margin-inline: auto;
+  }
+  @media (max-width: 720px) {
+    .values__grid {
+      grid-template-columns: 1fr;
+      max-width: 24rem;
+      margin-inline: auto;
+    }
+  }
+
+  .philo {
+    text-align: center;
+  }
+  .philo__text {
+    font-family: var(--font-brand);
+    font-size: var(--fs-md);
+    line-height: 1.5;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .hours-block {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: center;
+  }
+  .hours-block__badge {
+    margin: 0.9rem 0 0.4rem;
+  }
+  .hours-block__head .btn {
+    margin-top: 1.4rem;
+  }
+  .hours-block__table {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-sm);
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+  @media (max-width: 760px) {
+    .hours-block {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

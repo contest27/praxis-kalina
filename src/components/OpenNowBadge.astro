@@ -1,0 +1,105 @@
+---
+import praxis from '../content/praxis/praxisdaten.json';
+const hours = praxis.hours;
+---
+
+<p class="opennow" data-opennow hidden>
+  <span class="opennow__dot" aria-hidden="true"></span>
+  <span class="opennow__text" data-opennow-text></span>
+</p>
+
+<script is:inline define:vars={{ hours }}>
+  // Client-seitig, zeitzonensicher via Intl / Europe-Berlin (DST-korrekt —
+  // niemals fixer UTC-Offset). Progressive Enhancement: ohne JS bleibt die
+  // Badge verborgen, die Sprechzeiten-Tabelle ist die verlässliche Quelle.
+  (function () {
+    const el = document.querySelector('[data-opennow]');
+    const textEl = document.querySelector('[data-opennow-text]');
+    if (!el || !textEl) return;
+    const dayMap = { Mon: 'Mo', Tue: 'Di', Wed: 'Mi', Thu: 'Do', Fri: 'Fr', Sat: 'Sa', Sun: 'So' };
+    const toMin = (t) => {
+      const [h, m] = t.split(':').map(Number);
+      return h * 60 + m;
+    };
+    function status(now) {
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/Berlin',
+        weekday: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+        hourCycle: 'h23',
+      }).formatToParts(now);
+      const wd = dayMap[parts.find((p) => p.type === 'weekday').value];
+      const mins =
+        +parts.find((p) => p.type === 'hour').value * 60 +
+        +parts.find((p) => p.type === 'minute').value;
+      const today = hours.find((h) => h.day === wd);
+      if (today) {
+        for (const s of today.slots) {
+          if (mins >= toMin(s.from) && mins < toMin(s.to)) return { open: true, until: s.to };
+          if (mins < toMin(s.from)) return { open: false, next: s.from };
+        }
+      }
+      return { open: false };
+    }
+    const s = status(new Date());
+    el.hidden = false;
+    if (s.open) {
+      el.classList.add('is-open');
+      textEl.innerHTML = 'Jetzt geöffnet' + (s.until ? ' <small>bis ' + s.until + ' Uhr</small>' : '');
+    } else {
+      el.classList.add('is-closed');
+      textEl.innerHTML =
+        'Zurzeit geschlossen' + (s.next ? ' <small>öffnet um ' + s.next + ' Uhr</small>' : '');
+    }
+  })();
+</script>
+
+<style>
+  .opennow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: 1.02rem;
+  }
+  .opennow__dot {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    flex: none;
+    background: var(--muted);
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  .opennow.is-open {
+    color: var(--open);
+  }
+  .opennow.is-open .opennow__dot {
+    background: var(--open);
+    animation: opennow-pulse 2.4s ease-out infinite;
+  }
+  .opennow.is-closed {
+    color: var(--closed);
+  }
+  .opennow.is-closed .opennow__dot {
+    background: var(--closed);
+  }
+  .opennow :global(small) {
+    display: block;
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  @keyframes opennow-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(31, 122, 82, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 0.5rem rgba(31, 122, 82, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(31, 122, 82, 0);
+    }
+  }
+</style>

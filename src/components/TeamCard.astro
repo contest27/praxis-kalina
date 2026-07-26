@@ -1,0 +1,109 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import { withBase } from '../lib/url';
+
+interface Props {
+  member: CollectionEntry<'team'>;
+}
+const { member } = Astro.props;
+const { Content } = await render(member);
+
+const initials = member.data.name
+  .replace(/^Dr\.\s*/, '')
+  .split(/\s+/)
+  .map((w) => w[0])
+  .slice(0, 2)
+  .join('');
+---
+
+<article class="team-card">
+  <div class="team-card__media">
+    {
+      member.data.photo ? (
+        <img
+          src={withBase(member.data.photo)}
+          alt={`Porträt von ${member.data.name}`}
+          width="160"
+          height="160"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <span class="team-card__avatar" aria-hidden="true">
+          {initials}
+        </span>
+      )
+    }
+  </div>
+  <div class="team-card__body">
+    <h3 class="team-card__name">{member.data.name}</h3>
+    <p class="team-card__role">
+      {member.data.role}
+      {member.data.since && <span class="team-card__since">· in der Praxis seit {member.data.since}</span>}
+    </p>
+    <div class="prose team-card__bio">
+      <Content />
+    </div>
+  </div>
+</article>
+
+<style>
+  .team-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(1rem, 3vw, 1.75rem);
+    padding: clamp(1.25rem, 3vw, 1.85rem);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-sm);
+  }
+  .team-card__media img,
+  .team-card__avatar {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .team-card__avatar {
+    display: grid;
+    place-items: center;
+    background: linear-gradient(150deg, var(--burgundy), var(--burgundy-700));
+    color: #fff;
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: 2.4rem;
+    letter-spacing: 0.02em;
+  }
+  .team-card__name {
+    font-size: 1.4rem;
+  }
+  .team-card__role {
+    margin-top: 0.2rem;
+    color: var(--burgundy);
+    font-weight: 600;
+    font-size: 0.98rem;
+  }
+  .team-card__since {
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .team-card__bio {
+    margin-top: 0.9rem;
+    font-size: 0.98rem;
+  }
+  @media (max-width: 560px) {
+    .team-card {
+      grid-template-columns: 1fr;
+    }
+    .team-card__media {
+      justify-self: center;
+    }
+    .team-card__body {
+      text-align: center;
+    }
+    .team-card__bio {
+      text-align: left;
+    }
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+import { Icon } from 'astro-icon/components';
+import praxis from '../content/praxis/praxisdaten.json';
+
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = 'Vereinbaren Sie Ihren Termin',
+  text = 'Ausgewählte Termine buchen Sie bequem online. Bei akuten Beschwerden oder als neue Patientin erreichen Sie uns am besten telefonisch.',
+} = Astro.props;
+---
+
+<section class="cta">
+  <div class="container cta__inner">
+    <div class="cta__copy">
+      <h2 class="cta__title">{title}</h2>
+      <p class="cta__text">{text}</p>
+    </div>
+    <div class="cta__actions">
+      <a class="btn btn--on-dark" href={praxis.bookingUrl} target="_blank" rel="noopener">
+        <Icon name="lucide:calendar-check" /> Termin online buchen
+      </a>
+      <a class="cta__phone" href={`tel:${praxis.telefonHref}`}>
+        <Icon name="lucide:phone" /> {praxis.telefon}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background: linear-gradient(135deg, var(--burgundy) 0%, var(--burgundy-700) 100%);
+    color: #fff;
+  }
+  .cta__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem 2.5rem;
+    flex-wrap: wrap;
+    padding-block: clamp(2.25rem, 5vw, 3.25rem);
+  }
+  .cta__title {
+    color: #fff;
+    font-size: var(--fs-lg);
+  }
+  .cta__text {
+    margin-top: 0.6rem;
+    color: var(--rose);
+    max-width: 46ch;
+  }
+  .cta__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    flex-wrap: wrap;
+  }
+  .cta__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .cta__phone:hover {
+    color: var(--rose);
+  }
+  .cta__phone :global(svg) {
+    width: 1.2em;
+    height: 1.2em;
+  }
+</style>

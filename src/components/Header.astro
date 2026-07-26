@@ -1,0 +1,243 @@
+---
+import { Icon } from 'astro-icon/components';
+import { withBase } from '../lib/url';
+import Brand from './Brand.astro';
+import praxis from '../content/praxis/praxisdaten.json';
+
+const nav = [
+  { href: withBase('/'), label: 'Startseite' },
+  { href: withBase('/ueber-uns'), label: 'Über uns' },
+  { href: withBase('/leistungen'), label: 'Leistungen' },
+  { href: withBase('/aktuelles'), label: 'Aktuelles' },
+  { href: withBase('/kontakt'), label: 'Kontakt' },
+];
+
+const norm = (s: string) => s.replace(/\/+$/, '') || '/';
+const current = norm(Astro.url.pathname);
+const isActive = (href: string) => {
+  const h = norm(href);
+  if (h === norm(withBase('/'))) return current === h;
+  return current === h || current.startsWith(h + '/');
+};
+---
+
+<header class="site-header" id="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__brand" href={withBase('/')} aria-label="Zur Startseite">
+      <Brand />
+    </a>
+
+    <button
+      class="nav__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="primary-nav"
+      aria-label="Menü öffnen"
+    >
+      <Icon class="nav__icon nav__icon--open" name="lucide:menu" />
+      <Icon class="nav__icon nav__icon--close" name="lucide:x" />
+    </button>
+
+    <nav class="nav" aria-label="Hauptnavigation">
+      <ul class="nav__list" id="primary-nav">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                class="nav__link"
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="nav__phone">
+          <a href={`tel:${praxis.telefonHref}`}>
+            <Icon name="lucide:phone" />
+            <span>{praxis.telefon}</span>
+          </a>
+        </li>
+        <li class="nav__cta">
+          <a class="btn btn--primary" href={praxis.bookingUrl} target="_blank" rel="noopener">
+            <Icon name="lucide:calendar-check" />
+            Termin buchen
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.nav__toggle');
+  const list = document.getElementById('primary-nav');
+
+  if (header && toggle && list) {
+    const close = () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Menü öffnen');
+      header.classList.remove('is-open');
+    };
+    const open = () => {
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Menü schließen');
+      header.classList.add('is-open');
+    };
+    toggle.addEventListener('click', () => {
+      toggle.getAttribute('aria-expanded') === 'true' ? close() : open();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+    list.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+    window.matchMedia('(min-width: 880px)').addEventListener('change', close);
+
+    // dezenter Schatten, sobald gescrollt
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: box-shadow var(--t) var(--ease), border-color var(--t) var(--ease);
+  }
+  .site-header.is-scrolled {
+    border-bottom-color: var(--line);
+    box-shadow: var(--shadow-sm);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: var(--header-h);
+  }
+  .site-header__brand {
+    text-decoration: none;
+    border-radius: var(--r-sm);
+  }
+
+  .nav__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: clamp(0.6rem, 1.6vw, 1.6rem);
+  }
+  .nav__link {
+    display: inline-block;
+    padding: 0.4rem 0.2rem;
+    font-family: var(--font-brand);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+  }
+  .nav__link:hover {
+    color: var(--burgundy);
+  }
+  .nav__link[aria-current='page'] {
+    color: var(--burgundy);
+    border-bottom-color: var(--burgundy);
+  }
+  .nav__phone a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--burgundy);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav__phone svg {
+    width: 1.05em;
+    height: 1.05em;
+  }
+
+  /* Hamburger */
+  .nav__toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: #fff;
+    color: var(--burgundy);
+    cursor: pointer;
+  }
+  .nav__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .nav__icon--close {
+    display: none;
+  }
+
+  /* ---- Mobil ---- */
+  @media (max-width: 879px) {
+    .nav__toggle {
+      display: inline-flex;
+    }
+    .nav__list {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 0.5rem clamp(1rem, 4vw, 2rem) 1.25rem;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      transform-origin: top;
+      display: none;
+    }
+    .site-header.is-open .nav__list {
+      display: flex;
+    }
+    .site-header.is-open .nav__icon--open {
+      display: none;
+    }
+    .site-header.is-open .nav__icon--close {
+      display: block;
+    }
+    .nav__link {
+      display: block;
+      padding: 0.85rem 0.2rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .nav__link[aria-current='page'] {
+      border-bottom-color: var(--line);
+    }
+    .nav__phone {
+      padding: 0.9rem 0.2rem 0.3rem;
+    }
+    .nav__phone a {
+      font-size: 1.05rem;
+    }
+    .nav__cta {
+      margin-top: 0.9rem;
+    }
+    .nav__cta .btn {
+      width: 100%;
+    }
+  }
+</style>

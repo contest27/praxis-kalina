@@ -1,0 +1,199 @@
+---
+import { Icon } from 'astro-icon/components';
+import { withBase } from '../lib/url';
+import { fullWeek } from '../lib/hours';
+import praxis from '../content/praxis/praxisdaten.json';
+
+const week = fullWeek(praxis.hours);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__col site-footer__about">
+      <p class="site-footer__name">Frauenarztpraxis<br />Dorothee Kalina</p>
+      <p class="site-footer__tag">
+        Persönliche Zuwendung und professionelle gynäkologische Betreuung in Leverkusen.
+      </p>
+      <a class="btn btn--on-dark" href={praxis.bookingUrl} target="_blank" rel="noopener">
+        <Icon name="lucide:calendar-check" /> Termin online buchen
+      </a>
+    </div>
+
+    <div class="site-footer__col">
+      <h2 class="site-footer__head">Kontakt</h2>
+      <address class="site-footer__contact">
+        <p>{praxis.strasse}<br />{praxis.plz} {praxis.ort}</p>
+        <p>
+          <a href={`tel:${praxis.telefonHref}`}><Icon name="lucide:phone" /> {praxis.telefon}</a><br />
+          <span class="site-footer__muted"><Icon name="lucide:printer" /> Fax {praxis.fax}</span><br />
+          <a href={`mailto:${praxis.email}`}><Icon name="lucide:mail" /> {praxis.email}</a>
+        </p>
+      </address>
+    </div>
+
+    <div class="site-footer__col">
+      <h2 class="site-footer__head">Sprechzeiten</h2>
+      <dl class="site-footer__hours">
+        {
+          week.map((d) => (
+            <div class:list={['site-footer__hourrow', { 'is-closed': d.closed }]}>
+              <dt>{d.day}</dt>
+              <dd>{d.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <nav class="site-footer__col" aria-label="Footer-Navigation">
+      <h2 class="site-footer__head">Navigation</h2>
+      <ul class="site-footer__nav">
+        <li><a href={withBase('/')}>Startseite</a></li>
+        <li><a href={withBase('/ueber-uns')}>Über uns</a></li>
+        <li><a href={withBase('/leistungen')}>Leistungen</a></li>
+        <li><a href={withBase('/aktuelles')}>Aktuelles</a></li>
+        <li><a href={withBase('/kontakt')}>Kontakt & Termine</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="site-footer__bar">
+    <div class="container site-footer__barinner">
+      <p>© {year} Frauenarztpraxis Dorothee Kalina</p>
+      <ul>
+        <li><a href={withBase('/impressum')}>Impressum</a></li>
+        <li><a href={withBase('/datenschutz')}>Datenschutz</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--burgundy-700);
+    color: #fff;
+    margin-top: var(--sp-9);
+  }
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+  }
+  @media (max-width: 860px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .site-footer__about {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 520px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .site-footer__name {
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+  .site-footer__tag {
+    margin-top: 0.75rem;
+    margin-bottom: 1.25rem;
+    color: var(--rose);
+    max-width: 26ch;
+    font-size: 0.95rem;
+  }
+  .site-footer__head {
+    color: #fff;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.9rem;
+    opacity: 0.85;
+  }
+  .site-footer address {
+    font-style: normal;
+  }
+  .site-footer__contact p + p {
+    margin-top: 0.6rem;
+  }
+  .site-footer a {
+    color: #fff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .site-footer a:hover {
+    color: var(--rose);
+    text-decoration: underline;
+  }
+  .site-footer svg {
+    width: 1em;
+    height: 1em;
+    opacity: 0.85;
+  }
+  .site-footer__muted {
+    color: var(--rose);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0.85;
+  }
+
+  .site-footer__hours {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+  .site-footer__hourrow {
+    display: grid;
+    grid-template-columns: 2.2rem 1fr;
+    gap: 0.5rem;
+    padding: 0.15rem 0;
+  }
+  .site-footer__hourrow dt {
+    font-weight: 700;
+  }
+  .site-footer__hourrow dd {
+    margin: 0;
+    color: #fff;
+  }
+  .site-footer__hourrow.is-closed dd {
+    color: var(--rose);
+    opacity: 0.7;
+  }
+
+  .site-footer__nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .site-footer__bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    background: var(--burgundy-800);
+    font-size: 0.85rem;
+  }
+  .site-footer__barinner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-block: 1rem;
+  }
+  .site-footer__barinner ul {
+    list-style: none;
+    display: flex;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+  }
+</style>

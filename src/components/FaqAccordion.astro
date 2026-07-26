@@ -1,0 +1,98 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+
+interface Props {
+  items: CollectionEntry<'faq'>[];
+}
+const { items } = Astro.props;
+
+const rendered = await Promise.all(
+  items.map(async (it) => ({ it, Content: (await render(it)).Content }))
+);
+
+// FAQPage-JSON-LD (grob bereinigter Antworttext für Suchmaschinen).
+const clean = (md: string) =>
+  md
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/[#>*_`]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((it) => ({
+    '@type': 'Question',
+    name: it.data.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: clean((it as { body?: string }).body ?? ''),
+    },
+  })),
+};
+---
+
+<div class="faq">
+  {
+    rendered.map(({ it, Content }) => (
+      <details class="faq__item">
+        <summary class="faq__q">
+          <span>{it.data.question}</span>
+          <svg class="faq__chevron" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </summary>
+        <div class="prose faq__a">
+          <Content />
+        </div>
+      </details>
+    ))
+  }
+</div>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(faqLd)} />
+
+<style>
+  .faq {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .faq__item {
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    background: #fff;
+    overflow: hidden;
+  }
+  .faq__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.25rem;
+    cursor: pointer;
+    font-family: var(--font-brand);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--ink);
+    list-style: none;
+  }
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+  .faq__q:hover {
+    color: var(--burgundy);
+  }
+  .faq__chevron {
+    width: 1.3rem;
+    height: 1.3rem;
+    flex: none;
+    color: var(--burgundy);
+    transition: transform var(--t) var(--ease);
+  }
+  .faq__item[open] .faq__chevron {
+    transform: rotate(180deg);
+  }
+  .faq__a {
+    padding: 0 1.25rem 1.25rem;
+    color: var(--ink);
+  }
+</style>

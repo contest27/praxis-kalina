@@ -1,0 +1,64 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import TeamCard from '../components/TeamCard.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+
+const page = await getEntry('pages', 'ueber-uns');
+const Philosophy = page ? (await render(page)).Content : null;
+
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Über uns"
+  description="Praxisphilosophie und Team der Frauenarztpraxis Dorothee Kalina in Leverkusen – Dorothee Kalina und Dr. Maren Unterberg."
+>
+  <PageHeader
+    eyebrow="Über uns"
+    title="Persönliche Betreuung mit Herz und Kompetenz"
+    lead="Lernen Sie unsere Praxis und das Team kennen."
+  />
+
+  <section class="section">
+    <div class="container container-narrow">
+      <h2 class="center">Unsere Praxisphilosophie</h2>
+      <div class="prose philosophy">
+        {Philosophy ? <Philosophy /> : null}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Das Team</span>
+        <h2>Die Ärztinnen unserer Praxis</h2>
+      </div>
+      <div class="team-list">
+        {team.map((member) => <TeamCard member={member} />)}
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .center {
+    text-align: center;
+  }
+  .philosophy {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: var(--fs-md);
+    color: var(--ink);
+  }
+  .team-list {
+    display: grid;
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+    max-width: 52rem;
+    margin-inline: auto;
+  }
+</style>

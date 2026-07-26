@@ -1,0 +1,20 @@
+{
+  "name": "Frauenarztpraxis Dorothee Kalina",
+  "inhaberin": "Dorothee Kalina",
+  "strasse": "Dechant-Fein-Straße 9",
+  "plz": "51375",
+  "ort": "Leverkusen",
+  "telefon": "0214 56081",
+  "telefonHref": "+4921456081",
+  "fax": "0214 56082",
+  "email": "mail@praxis-kalina.de",
+  "bookingUrl": "https://app.arzt-direkt.de/praxis-kalina/booking",
+  "hours": [
+    { "day": "Mo", "slots": [{ "from": "08:00", "to": "12:00" }, { "from": "14:00", "to": "18:00" }] },
+    { "day": "Di", "slots": [{ "from": "08:00", "to": "12:00" }, { "from": "14:00", "to": "18:00" }] },
+    { "day": "Mi", "slots": [{ "from": "08:00", "to": "12:00" }] },
+    { "day": "Do", "slots": [{ "from": "08:00", "to": "12:00" }, { "from": "14:00", "to": "18:00" }] },
+    { "day": "Fr", "slots": [{ "from": "08:00", "to": "12:00" }] }
+  ],
+  "hinweisTermin": "Um Wartezeiten zu vermeiden, bitten wir um eine vorherige Terminvereinbarung. Ausgewählte Termine können Sie bequem online buchen; bei akuten Beschwerden oder als neue Patientin melden Sie sich bitte telefonisch."
+}

@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import { withBase } from '../lib/url';
+import { activeAktuelles, AKTUELLES_META } from '../lib/aktuelles';
+
+const active = activeAktuelles(await getCollection('aktuelles'));
+const top = active[0];
+const meta = top ? AKTUELLES_META[top.data.type] : null;
+const expires = top?.data.expires ? top.data.expires.toISOString().slice(0, 10) : '';
+---
+
+{
+  top && meta && (
+    <aside class="aktbanner" data-aktbanner data-expires={expires} style={`--type: var(${meta.varName});`}>
+      <div class="container aktbanner__inner">
+        <span class="aktbanner__badge">
+          <Icon name={meta.icon} /> {meta.label}
+        </span>
+        <span class="aktbanner__text">{top.data.title}</span>
+        <a class="aktbanner__link" href={withBase('/aktuelles')}>
+          Mehr <Icon name="lucide:arrow-right" />
+        </a>
+      </div>
+    </aside>
+  )
+}
+
+<script>
+  // Belt-and-suspenders: abgelaufene Meldung client-seitig ausblenden,
+  // falls der tägliche Rebuild sie noch nicht entfernt hat.
+  const el = document.querySelector('[data-aktbanner]');
+  if (el instanceof HTMLElement && el.dataset.expires) {
+    const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin' }).format(new Date());
+    if (el.dataset.expires < today) el.hidden = true;
+  }
+</script>
+
+<style>
+  .aktbanner {
+    background: color-mix(in srgb, var(--type) 10%, #fff);
+    border-bottom: 1px solid color-mix(in srgb, var(--type) 22%, #fff);
+  }
+  .aktbanner__inner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    flex-wrap: wrap;
+    padding-block: 0.7rem;
+  }
+  .aktbanner__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--type);
+    white-space: nowrap;
+  }
+  .aktbanner__badge :global(svg) {
+    width: 1.15em;
+    height: 1.15em;
+  }
+  .aktbanner__text {
+    flex: 1;
+    min-width: 12rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .aktbanner__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .aktbanner__link :global(svg) {
+    width: 1em;
+    height: 1em;
+  }
+</style>

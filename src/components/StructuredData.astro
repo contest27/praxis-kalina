@@ -1,0 +1,43 @@
+---
+import praxis from '../content/praxis/praxisdaten.json';
+import { DAY_SCHEMA } from '../lib/hours';
+import { withBase } from '../lib/url';
+
+const url = Astro.site ? new URL(withBase('/'), Astro.site).href : undefined;
+
+const openingHoursSpecification = praxis.hours.flatMap((d) =>
+  d.slots.map((s) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: `https://schema.org/${DAY_SCHEMA[d.day]}`,
+    opens: s.from,
+    closes: s.to,
+  }))
+);
+
+const data = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalClinic',
+  name: praxis.name,
+  medicalSpecialty: 'Gynecologic',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: praxis.strasse,
+    postalCode: praxis.plz,
+    addressLocality: praxis.ort,
+    addressCountry: 'DE',
+  },
+  telephone: praxis.telefonHref,
+  faxNumber: praxis.fax,
+  email: praxis.email,
+  ...(url ? { url } : {}),
+  openingHoursSpecification,
+  availableService: [
+    { '@type': 'MedicalProcedure', name: 'Vorsorge und Krebsfrüherkennung' },
+    { '@type': 'MedicalProcedure', name: 'Betreuung in der Schwangerschaft' },
+    { '@type': 'MedicalProcedure', name: 'Hormonberatung' },
+    { '@type': 'MedicalProcedure', name: 'Mädchensprechstunde' },
+  ],
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(data)} />

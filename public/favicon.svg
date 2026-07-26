@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Frauenarztpraxis Dorothee Kalina">
+  <rect width="32" height="32" rx="8" fill="#8A162A" />
+  <g fill="#F7E6EC">
+    <circle cx="16" cy="8.8" r="3.5" />
+    <circle cx="22.8" cy="13.6" r="3.5" />
+    <circle cx="20.2" cy="21.8" r="3.5" />
+    <circle cx="11.8" cy="21.8" r="3.5" />
+    <circle cx="9.2" cy="13.6" r="3.5" />
+  </g>
+  <circle cx="16" cy="16" r="3.3" fill="#ffffff" />
+</svg>

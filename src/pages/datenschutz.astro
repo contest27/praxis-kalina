@@ -1,0 +1,30 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const page = await getEntry('pages', 'datenschutz');
+const Content = page ? (await render(page)).Content : null;
+---
+
+<BaseLayout
+  title="Datenschutzerklärung"
+  description="Informationen zum Datenschutz nach DSGVO – Frauenarztpraxis Dorothee Kalina, Leverkusen."
+>
+  <PageHeader title="Datenschutzerklärung" />
+  <section class="section">
+    <div class="container container-narrow prose legal">
+      {Content ? <Content /> : null}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal :global(h2) {
+    font-size: 1.2rem;
+    margin-top: 1.8em;
+  }
+  .legal :global(h2:first-child) {
+    margin-top: 0;
+  }
+</style>

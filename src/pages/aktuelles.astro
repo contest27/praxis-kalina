@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import AktuellesCard from '../components/AktuellesCard.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { activeAktuelles } from '../lib/aktuelles';
+
+const active = activeAktuelles(await getCollection('aktuelles'));
+---
+
+<BaseLayout
+  title="Aktuelles"
+  description="Aktuelle Hinweise, Praxisurlaub und Vertretungen der Frauenarztpraxis Dorothee Kalina in Leverkusen."
+>
+  <PageHeader
+    eyebrow="Aktuelles"
+    title="Neuigkeiten aus der Praxis"
+    lead="Praxisurlaub, Vertretungen und wichtige Hinweise finden Sie hier."
+  />
+
+  <section class="section">
+    <div class="container container-narrow">
+      {
+        active.length > 0 ? (
+          <div class="akt-list">
+            {active.map((entry) => (
+              <AktuellesCard entry={entry} />
+            ))}
+          </div>
+        ) : (
+          <p class="akt-empty">
+            <Icon name="lucide:calendar-check" />
+            Zurzeit gibt es keine besonderen Hinweise. Unsere regulären Sprechzeiten gelten wie
+            gewohnt.
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .akt-list {
+    display: grid;
+    gap: 1rem;
+  }
+  .akt-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 2.25rem;
+    text-align: center;
+    color: var(--muted);
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+  }
+  .akt-empty :global(svg) {
+    width: 1.4rem;
+    height: 1.4rem;
+    color: var(--burgundy);
+    flex: none;
+  }
+</style>
