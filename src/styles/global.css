@@ -138,8 +138,13 @@ ol {
   margin-inline: auto;
   padding-inline: clamp(1rem, 4vw, 2rem);
 }
+/* Auch ohne begleitendes .container zentriert und mit Seitenrand — sonst klebt
+   der Block bei versehentlich alleinstehender Nutzung am linken Rand. */
 .container-narrow {
+  width: 100%;
   max-width: var(--container-narrow);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2rem);
 }
 
 .section {

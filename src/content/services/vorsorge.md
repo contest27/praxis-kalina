@@ -1,6 +1,6 @@
 ---
 title: Vorsorge
-summary: Krebsfrüherkennung, Abstrich sowie Brust- und Ultraschalluntersuchungen — gründlich und schonend.
+summary: Krebsfrüherkennung, Abstrich und moderne Ultraschalldiagnostik – gründlich und schonend.
 order: 1
 icon: shield-check
 featured: true

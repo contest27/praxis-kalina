@@ -1,15 +1,15 @@
 ---
 title: Datenschutzerklärung
-seoDescription: Informationen zum Datenschutz nach DSGVO — Frauenarztpraxis Dorothee Kalina, Leverkusen.
+seoDescription: Informationen zum Datenschutz nach DSGVO – Frauenarztpraxis Dorothee Kalina, Leverkusen.
 ---
 
 Der Schutz Ihrer persönlichen Daten ist uns ein besonderes Anliegen. Als Arztpraxis verarbeiten wir Gesundheitsdaten, die als besondere Kategorie personenbezogener Daten (Art. 9 DSGVO) unter einem besonders hohen Schutz stehen. Diese Erklärung informiert Sie über die Verarbeitung personenbezogener Daten im Zusammenhang mit **dieser Website**.
 
 ## Verantwortliche Stelle
 
-Frauenarztpraxis Dorothee Kalina
-Dorothee Kalina
-Dechant-Fein-Straße 9, 51375 Leverkusen
+Frauenarztpraxis Dorothee Kalina<br>
+Dorothee Kalina<br>
+Dechant-Fein-Straße 9, 51375 Leverkusen<br>
 Telefon: 0214 56081 · E-Mail: mail@praxis-kalina.de
 
 ## Hosting
@@ -45,7 +45,7 @@ Sie haben das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (A
 
 ## Beschwerderecht
 
-Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Zuständig ist:
+Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Zuständig ist:<br>
 Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen (LDI NRW), Kavalleriestraße 2–4, 40213 Düsseldorf.
 
 ## SSL-/TLS-Verschlüsselung

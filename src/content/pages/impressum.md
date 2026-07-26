@@ -5,25 +5,27 @@ seoDescription: Impressum der Frauenarztpraxis Dorothee Kalina, Leverkusen.
 
 ## Angaben gemäß § 5 DDG
 
-**Frauenarztpraxis Dorothee Kalina**
-Dorothee Kalina
-Dechant-Fein-Straße 9
-51375 Leverkusen
+**Frauenarztpraxis Dorothee Kalina**<br>
+Dorothee Kalina<br>
+Dechant-Fein-Straße 9<br>
+51375 Leverkusen<br>
 Deutschland
 
 ## Kontakt
 
-Telefon: 0214 56081
-Telefax: 0214 56082
+Telefon: 0214 56081<br>
+Telefax: 0214 56082<br>
 E-Mail: mail@praxis-kalina.de
 
 ## Berufsbezeichnung und berufsrechtliche Regelungen
 
 **Berufsbezeichnung:** Fachärztin für Gynäkologie und Geburtshilfe (verliehen in der Bundesrepublik Deutschland)
 
-**Zuständige Ärztekammer:** Ärztekammer Nordrhein, Tersteegenstraße 9, 40474 Düsseldorf
+**Zuständige Ärztekammer:**<br>
+Ärztekammer Nordrhein, Tersteegenstraße 9, 40474 Düsseldorf
 
-**Kassenärztliche Vereinigung:** Kassenärztliche Vereinigung Nordrhein, Tersteegenstraße 9, 40474 Düsseldorf
+**Kassenärztliche Vereinigung:**<br>
+Kassenärztliche Vereinigung Nordrhein, Tersteegenstraße 9, 40474 Düsseldorf
 
 **Es gelten folgende berufsrechtliche Regelungen:**
 

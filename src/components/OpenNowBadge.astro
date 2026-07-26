@@ -9,9 +9,9 @@ const hours = praxis.hours;
 </p>
 
 <script is:inline define:vars={{ hours }}>
-  // Client-seitig, zeitzonensicher via Intl / Europe-Berlin (DST-korrekt —
+  // Client-seitig, zeitzonensicher via Intl / Europe-Berlin (DST-korrekt,
   // niemals fixer UTC-Offset). Progressive Enhancement: ohne JS bleibt die
-  // Badge verborgen, die Sprechzeiten-Tabelle ist die verlässliche Quelle.
+  // Badge verborgen, die Sprechzeiten-Tabelle ist die verlaessliche Quelle.
   (function () {
     const dayMap = { Mon: 'Mo', Tue: 'Di', Wed: 'Mi', Thu: 'Do', Fri: 'Fr', Sat: 'Sa', Sun: 'So' };
     const toMin = (t) => {
@@ -41,8 +41,8 @@ const hours = praxis.hours;
       return { open: false };
     }
     const s = status(new Date());
-    // Alle Badges der Seite bedienen (Hero + Sprechzeiten-Block) — idempotent,
-    // da das Inline-Skript pro Instanz einmal läuft.
+    // Alle Badges der Seite bedienen (Hero + Sprechzeiten-Block); idempotent,
+    // da das Inline-Skript pro Instanz einmal laeuft.
     document.querySelectorAll('[data-opennow]').forEach((el) => {
       const textEl = el.querySelector('[data-opennow-text]');
       if (!textEl) return;

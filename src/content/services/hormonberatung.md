@@ -1,6 +1,6 @@
 ---
 title: Hormonberatung
-summary: Individuelle Beratung bei Zyklusstörungen, PMS, Verhütung, Kinderwunsch und Beschwerden in den Wechseljahren.
+summary: Beratung bei Zyklusstörungen, PMS, Verhütung, Kinderwunsch und Wechseljahren.
 order: 3
 icon: heart-pulse
 featured: true

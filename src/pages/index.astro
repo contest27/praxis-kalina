@@ -90,7 +90,7 @@ const values = [
   </section>
 
   <section class="section section--rose">
-    <div class="container-narrow philo">
+    <div class="container container-narrow philo">
       <span class="eyebrow">Über uns</span>
       <p class="philo__text">{philosophy}</p>
       <a class="btn btn--ghost" href={withBase('/ueber-uns')}>
@@ -163,11 +163,16 @@ const values = [
   .philo {
     text-align: center;
   }
+  /* Eyebrow und Button bleiben zentriert, der Absatz wird linksbündig gesetzt
+     (zentrierter Fließtext über mehrere Zeilen liest sich schlecht). */
   .philo__text {
     font-family: var(--font-brand);
     font-size: var(--fs-md);
     line-height: 1.5;
     color: var(--ink);
+    text-align: left;
+    max-width: 38rem;
+    margin-inline: auto;
     margin-bottom: 1.5rem;
   }
 

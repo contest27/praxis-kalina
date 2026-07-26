@@ -1,6 +1,6 @@
 ---
 title: Mädchensprechstunde
-summary: Ein geschützter Raum für junge Patientinnen — Zyklus, Verhütung, HPV. Eine Beratung ist auch ohne Untersuchung möglich.
+summary: Ein geschützter Raum für erste Fragen – Beratung auch ohne Untersuchung möglich.
 order: 4
 icon: flower-2
 featured: true

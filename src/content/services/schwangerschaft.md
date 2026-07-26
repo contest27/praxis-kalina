@@ -1,6 +1,6 @@
 ---
 title: Betreuung in der Schwangerschaft
-summary: Einfühlsame Begleitung nach den Mutterschaftsrichtlinien — inkl. Ultraschall, CTG und geburtsvorbereitender Akupunktur.
+summary: Vorsorge nach Mutterschaftsrichtlinien, Ultraschall, CTG und geburtsvorbereitende Akupunktur.
 order: 2
 icon: baby
 featured: true

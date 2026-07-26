@@ -92,7 +92,7 @@ const faqs = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.o
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(1.5rem, 4vw, 3rem);
-    align-items: start;
+    align-items: stretch; /* beide Boxen gleich hoch – ruhigeres Satzbild */
   }
   .kontakt__card {
     background: #fff;
@@ -147,6 +147,9 @@ const faqs = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.o
     color: var(--muted);
   }
   .kontakt__hours {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background: var(--bg-soft);
     border: 1px solid var(--line);
     border-radius: var(--r-lg);
